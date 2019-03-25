@@ -1,0 +1,457 @@
+#include<conio.h>
+#include<stdio.h>
+#include<malloc.h>
+#include<stdlib.h>
+#include<malloc.h>
+#include<string.h>
+struct node
+{ int price,bno;
+  char bookname[50],name[50],gender[2],email[50],mobno[10];
+  int age,n;
+  char idno[30];
+  char bname[20],author[20],date[20];
+  struct node* next;
+}*p,*q,*head,*last;
+struct pop
+{
+  int price,bno;
+  char bname[50],author[50];
+};
+struct pop obj;
+int n,m,i;
+void book();
+void display();
+void searchbooks();
+void writesortedlist();
+void displaybooks();
+void deletebooks();
+void insertbooks();
+void sortbooksaccbno();
+void sortbooksaccbname();
+void displaysortedbooks();
+void bookenquiry();
+void bookselect();
+void payout();
+int found=0;
+int ch,x,c=' ',choice1,choice2;
+char str1[20],str2[20],str3[20],str4[20];
+
+void main()
+{  int z,c,choice5;
+  clrscr();
+    while(ch<4)
+    {
+      printf("\n********************************************************************\n");
+      printf("                  Welcome to ABC LIBRARY                ");
+      printf("\n********************************************************************\n");
+      printf("      Log In As:\n");
+      printf("1.ADMIN\n2.USER\n3.EXIT\n");
+      printf("Enter Your Choice:");
+      scanf("%d",&ch);
+      switch(ch)
+      {
+	case 1:
+		printf("\n********************************************************************\n");
+		printf("                  Welcome ADMIN                                         ");
+		printf("\n********************************************************************\n");
+		i=0;
+		printf("Enter Name:");
+		scanf("%s",str1);
+		printf("Enter Password:");
+		scanf("%s",str2);
+		  z=strcmp(str2,"dsproject");
+		  if(z==0)
+		  {
+		    while(choice1<6)
+		    {
+			printf("\n********************************************************************\n");
+			printf("                             MENU                                         ");
+			printf("\n********************************************************************\n");
+			printf("\n1.Insert Books\n2.Delete Books\n3.Sort Books.\n4.Display Books.\n5.Book Enquiry\n6.Exit\n");
+			printf("Enter Your Choice:");
+			scanf("%d",&choice1);
+			switch(choice1)
+			{  case 1:
+				  insertbooks();
+				  break;
+			  case 2:
+				   deletebooks();
+				   break;
+			  case 3:  printf("\n1.Sort Books According To BookNo.\n2.Sort Books According To Book Name.\n");
+				   printf("\nEnter Your Choice:");
+				   scanf("%d",&choice5);
+				   switch(choice5)
+				   {
+				   case 1:
+				     sortbooksaccbno();
+				     writesortedlist();
+				     break;
+				   case 2:
+				      sortbooksaccbname();
+				      writesortedlist();
+				      break;
+				   }
+				   break;
+			  case 4:displaybooks();
+				break;
+			  case 5:bookenquiry();
+				break;
+			}
+		    }
+		  }
+		  else
+		  {
+		    printf("\nINVALID PASSWORD.......Enter Corect Username And Password");
+
+		  }
+		  break;
+		 case 2:
+			printf("\n********************************************************************\n");
+			printf("               USER Menu                                            ");
+			printf("\n********************************************************************\n");
+
+		    while(choice2<5)
+		    {
+			printf("\n********************************************************************\n");
+			printf("                  MENU                                         ");
+			printf("\n********************************************************************\n");
+			printf("1.Purchase Book & Display Details .\n2.Book Enquiry.\n3.Cancel Purchased Books\n4.Exit");
+			printf("\nEnter Your Choice:");
+			scanf("%d",&choice2);
+			switch(choice2)
+			{
+			  case 1:
+				  printf("\n********************************************************************\n");
+				  printf("               BOOKS                                            ");
+				  printf("\n********************************************************************\n");
+				  displaybooks();
+
+				  //bookselect();
+				  book();
+				  payout();
+				  break;
+			  case 2:
+				  bookenquiry();
+				  break;
+			  case 3:
+				  printf("Your Purchased Book Has Been Canceled");
+
+				  break;
+
+			  case 4:exit(1);
+				break;
+			 }
+		    }
+		    case 3:exit(1);
+			break;
+
+      }
+
+    }
+  getch();
+}
+void insertbooks()
+{  p=head;
+   while(found==1);
+  {
+    found=0;
+    p=head;
+    printf("\n****************************************************************\n");
+    printf("Book No || Book Name || Author Name || Book Price");
+    printf("\n****************************************************************\n");
+    scanf("%d",&obj.bno);
+    scanf("%s",obj.bname);
+    scanf("%s",obj.author);
+    scanf("%d",&obj.price);
+    strlwr(obj.bname);
+    strlwr(obj.author);
+    while(p!=NULL)
+    {
+      if(strcmp(p->bname,obj.bname)==0)
+      {
+       //	found=1;
+	printf("\n\t\t Oops  !!!  Book Already Present.....\n");
+		found=1;
+		break;
+      }
+      p=p->next;
+     }
+    }
+    struct node* q;
+   // int i=0;
+    p=last;
+    if(last==NULL)
+    {
+     // i=1;
+      last=(struct node*)malloc(sizeof(struct node));
+      last->next=NULL;
+      last->bno=obj.bno;
+      strcpy(last->bname,obj.bname);
+      strcpy(last->author,obj.author);
+      last->price=obj.price;
+      p=last;
+      head=last;
+
+    }
+    else
+    {
+     // i=0;
+      p=last;
+      p->next=(struct node*)malloc(sizeof(struct node));
+      p=p->next;
+      last=p;
+      p->bno=obj.bno;
+      strcpy(p->bname,obj.bname );
+      strcpy(p->author,obj.author);
+      p->price=obj.price;
+	p->next=NULL;
+
+    }
+    printf("\n\n\tBook Added Succesfully......!!!!");
+  }
+void displaybooks()
+{
+  p=head;
+  if(p==NULL)
+  {
+    printf("List Is Empty....Add Books");
+  }
+  else
+  {
+    printf("\n****************************************************************\n");
+    printf("\nBook No || Book Name || Author Name || Book Price");
+    printf("\n****************************************************************\n");
+    while(p!=NULL)
+    {
+      printf("\n%d\t\t%s\t\t%s\t\t%d",p->bno,p->bname,p->author,p->price);
+      p=p->next;
+    }
+  }
+}
+void sortbooksaccbno()
+{
+  int k;
+  int temp;
+  struct node *i,*j;
+  for(i=head;i!=NULL;i=i->next)
+  {
+    for(j=i->next;j!=NULL;j=j->next)
+    {
+      if((i->bno)>(j->bno))
+      {
+	obj.bno=i->bno;
+	i->bno=j->bno;
+	j->bno=obj.bno;
+	strcpy(obj.bname,i->bname);
+	strcpy(i->bname,j->bname);
+	strcpy(j->bname,obj.bname);
+
+	strcpy(obj.author,i->author);
+	strcpy(i->author,j->author);
+	strcpy(j->author,obj.author);
+
+	obj.price=i->price;
+	i->price=j->price;
+	j->price=obj.price;
+      }
+    }
+  }
+}
+void sortbooksaccbname()
+{
+  int k,z;
+  int temp;
+  struct node *i,*j;
+  for(i=head;i!=NULL;i=i->next)
+  {
+    for(j=i->next;j!=NULL;j=j->next)
+    {   z=strcmp(i->bname,j->bname);
+      if(z>0)
+      {
+	strcpy(obj.bname,i->bname);
+	strcpy(i->bname,j->bname);
+	strcpy(j->bname,obj.bname);
+
+	strcpy(obj.author,i->author);
+	strcpy(i->author,j->author);
+	strcpy(j->author,obj.author);
+
+	obj.bno=i->bno;
+	i->bno=j->bno;
+	j->bno=obj.bno;
+	obj.price=i->price;
+	i->price=j->price;
+	j->price=obj.price;
+      }
+    }
+  }
+}
+
+void writesortedlist()
+{
+  //p=head;
+  int i;
+  struct node *temp;
+  temp=head;
+  if(temp==NULL)
+  {
+    printf("List Is Empty");
+  }
+  else
+  {
+    printf("\n****************************************************************\n");
+    printf("Book No || Book Name || Author Name || Book Price");
+    printf("\n****************************************************************\n");
+    while(temp!=NULL)
+    {
+      printf("\n%d\t\t%s\t\t%s\t\t%d",temp->bno,temp->bname,temp->author,temp->price);
+      temp=temp->next;
+    }
+  }
+}
+
+void deletebooks()
+{
+    struct node *p,*q;
+    int loc,i=1;
+    printf("Enter the Location of the Book which is to be Deleted:");
+    scanf("%d",&loc);
+    if(head==NULL)
+    {
+      printf("List Is Empty");
+
+    }
+     else if(loc==1)
+    {
+      p=head;
+      head=head->next;
+      free(p);
+    }
+    else
+    { p=head;
+      while(i<(loc-1))
+      {
+	p=p->next;
+      }
+      q=p->next;
+      p->next=q->next;
+      free(q);
+    }
+}
+void bookenquiry()
+{
+  int found=0;
+  char bname[50],author[50];
+  int bno;
+  p=head;
+   printf("\n****************************************************************\n");
+   printf("                            BOOK ENQUIRY  ");
+   printf("\n****************************************************************\n");
+   printf("\nEnter the Book Name: ");
+   scanf("%s",bname);
+   printf("\nEnter the Author Name: ");
+   scanf("%s",author);
+   printf("\n****************************************************************\n");
+   printf("\n\tBook Number|| Book Name || Author || Book Price\n");
+   printf("\n****************************************************************\n");
+   while(p!=NULL)
+   {
+     if((strcmp(p->bname,bname)==0)&&(strcmp(p->author,author)==0))
+     {
+       printf("\n%d\t\t%s\t\t%s\t\t%d",p->bno,p->bname,p->author,p->price);
+       found=1;
+     }
+     p=p->next;
+   }
+   if(!found)
+   {
+     printf("\n\t Oops....!!! No Books Found\n\n");
+   }
+
+}
+
+void book()
+{ int found=0,choice4;
+
+  char bname[50],author[50];
+  p=head;
+  printf("\n Enter the Name of the Book:");
+  scanf("%s",bname);
+  printf("\nEnter the Name of the Author:");
+  scanf("%s",author);
+  while(p!=NULL)
+  {
+    if(strcmp(p->bname,bname)==0)
+    {
+     printf("\n****************************************************************\n");
+     printf("\n\tBook Number|| Book Name || Author || Book Price\n");
+     printf("\n****************************************************************\n");
+     printf("\n%d\t\t%s\t\t%s\t\t%d",p->bno,p->bname,p->author,p->price);
+      // printf("YOU HAVE TO PAY %d RS",p->price);
+       found=1;
+       printf("\n\nYOU HAVE TO PAY RS:%d\n",p->price);
+
+   //  found=1;
+     }
+    // p=p->next;
+
+  if(!found)
+  {
+    printf("\n\tENTER VALID BOOK NAME  !!!!!!.....");
+  }
+  if(found==1)
+  {
+    printf("\nENTER YOUR NAME:");
+    scanf("%s",p->name);
+    printf("\nENTER YOUR AGE:");
+    scanf("%d",&p->age);
+    printf("\nGENDER(M/F):");
+    scanf("%s",p->gender);
+    printf("\nENTER YOUR MOBILE NUMBER:");
+    scanf("%s",p->mobno);
+    printf("\nENTER YOUR EMAIL ID:");
+    scanf("%s",p->email);
+    printf("\nENTER YOUR IDENTIFICATION NUMBER(Aadhar No./Pan No./Voting Id No.):");
+    scanf("%s",p->idno);
+
+      printf("\n********************************************************************\n");
+      printf("\n                   BUYER DETAILS\n");
+      printf("\n********************************************************************\n");
+      printf("\n\tName :\t\t");
+      printf("%s",p->name);
+      printf("\n\tAge :\t\t");
+      printf("%d",p->age);
+      printf("\n\tGender(M/F) :\t");
+      printf("%s",p->gender);
+      printf("\n\tMobile Number :\t");
+      printf("%s",p->mobno);
+      printf("\n\tEmail Id :\t");
+      printf("%s",p->email);
+      printf("\n\tIdentification no(Aadhar no/Pan no) :");
+      printf("%s",p->idno);
+       break;
+  //    p=p->next;
+     }
+     p=p->next;
+     }
+
+}
+
+
+
+
+void payout()
+{      int choice4;
+    printf("\n1.CONFIRM PAYMENT.\t\t2.CONTINUE & EXIT\n");
+     printf("Enter Your Choice:\t");
+     scanf("%d",&choice4);
+      switch(choice4)
+      {
+	      case 1:printf("\nYOUR PAYMENT HAS BEEN DONE SUCCESSFULLY");
+		     exit(1);
+		     break;
+	      case 2:   displaybooks();
+			book();
+			break;
+      }
+}
